@@ -88,6 +88,14 @@ jobs:
       - name: Test
         run: |
           oc api-resources
+          
+      - name: Delete secret
+        run: |
+          oc delete secret my-secret -n flex
+          
+      - name: Create secret
+        run: |
+          oc create secret generic my-secret --from-file=config.yaml=mnx.yaml -n flex
 
           
           
