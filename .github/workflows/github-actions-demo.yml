@@ -102,6 +102,13 @@ jobs:
         run: |
           oc rollout restart deployment flexmulesoft -n flex
 
+  Validate:
+    runs-on: ubuntu-latest
+    steps:
+       - name: REST API with curl
+         run: |
+            curl -X GET "http://flex-route-flex.apps-crc.testing/test"
+
           
           
               
