@@ -16,7 +16,7 @@ spec:
       address: http://sps-order-inventory-svc:8080/inventory
       routes:
         - rules:
-            - path: /regresos/inventarios(.*)
+            - path: /regresos123/inventarios(.*)
           config:
             destinationPath: /inventory
     usuarios:
@@ -26,6 +26,13 @@ spec:
             - path: /usuarios(.*)
           config:
             destinationPath: /login
+    clientes:
+      address: http://sps-login-svc:8080/clientes
+      routes:
+        - rules:
+            - path: /clientes(.*)
+          config:
+            destinationPath: /clientes
   policies:
     - policyRef:
         name: jwt-validation-flex

@@ -92,11 +92,11 @@ jobs:
           
       - name: Delete secret
         run: |
-          oc delete secret my-secret -n flex
+          oc delete secret config -n flex
           
       - name: Create secret
         run: |
-          oc create secret generic my-secret --from-file=config.yaml=mnx.yaml -n flex
+          oc create secret generic config --from-file=config.yaml=config.yaml -n flex
           
       - name: Rollout
         run: |
