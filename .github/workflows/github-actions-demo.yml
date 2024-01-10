@@ -84,25 +84,18 @@ jobs:
 
           # Optional - this sets your Kubernetes context's current namespace after logging in.
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
-          
-          
-  UpdateConfig:
-    runs-on: ubuntu-20.04
-    needs: Login
-    if: ${{ success() }}
-    
-    steps:
-      - uses: actions/checkout@v4
-      
+       
       - name: Test
         run: |
           oc api-resources
           
       - name: Delete secret
+        uses: actions/checkout@v4
         run: |
           oc delete secret my-secret -n flex
           
       - name: Create secret
+        uses: actions/checkout@v4
         run: |
           oc create secret generic my-secret --from-file=config.yaml=mnx.yaml -n flex
 
