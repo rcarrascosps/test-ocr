@@ -68,7 +68,7 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
 
 
-          # Credentials, if desired instead of token.
+          # Credentials, if desired instead of token
           # Username and password override token if they are set.
           openshift_username: ${{ secrets.TEST_USER }}
           openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
