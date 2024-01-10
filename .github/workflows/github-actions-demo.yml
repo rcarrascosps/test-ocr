@@ -53,17 +53,17 @@ jobs:
         with:
           oc_version: '4.6'
       
-  login:
+  Login:
     runs-on: ubuntu-20.04
     needs: Oc-openshift-Install
     if: ${{ success() }}
+    
     steps: 
-      - uses: actions/checkout@v4
 
       - name: Log in and set context
         # In a real workflow, point the 'uses' to a tag.
         # uses: redhat-actions/oc-login@v1
-        uses: ./
+        uses: actions/checkout@v4
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_username: ${{ secrets.TEST_USER }}
