@@ -16,7 +16,7 @@ spec:
       address: http://fx-order-inventory-svc:8080/inventory
       routes:
         - rules:
-            - path: /regresos/inventarios(.*)
+            - path: /regresosfafafafasfasf/inventarios(.*)
           config:
             destinationPath: /inventory
   policies:
