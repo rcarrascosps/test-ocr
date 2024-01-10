@@ -1,0 +1,83 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI - demo mulesoft flex-gateway
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  validar-yaml:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a set of commands using the runners shell
+      - name: Validar YAML
+        uses: GrantBirki/json-yaml-validate@v2.6.0
+        with:
+          files: "./config.yaml"
+          comment: "true"
+
+      - name: Mostrar contenido del archivo
+        run: cat config.yaml 
+      
+      - name: Convertir a base 64
+        run: 
+          cat config.yaml | base64 > config.txt
+      
+      - name: Mostrar base 64
+        run: cat config.txt
+      
+  Oc-openshift-Install:
+    runs-on: ubuntu-latest
+    needs: validar-yaml
+    if: ${{ success()}}
+
+    steps: 
+      - name: Install oc openshift
+        uses: redhat-actions/oc-installer@v1
+        with:
+          oc_version: '4.6'
+      
+  Login:
+    runs-on: ubuntu-20.04
+    needs: Oc-openshift-Install
+    if: ${{ success() }}
+    steps: 
+      - uses: actions/checkout@v4
+      
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "64.23.160.96 api.crc.testing oauth-openshift.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing flex-route-flex.apps-crc.testing downloads-openshift-console.apps-crc" | sudo tee -a /etc/hosts
+      - name: Log in and set context
+        run:
+          oc login -u kubeadmin --server=https://64.23.160.96:6443  --password=odDkV-opFbW-C2f2E-6URu --insecure-skip-tls-verify=true
+          
+      - name: test 
+        run:
+          oc get pods
+
+
+      
+      
+          
+        
+
+   
+
+
+        
