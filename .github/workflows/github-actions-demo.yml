@@ -84,6 +84,10 @@ jobs:
 
           # Optional - this sets your Kubernetes context's current namespace after logging in.
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+       
+      - name: Test
+        run: |
+          oc api-resources
 
           
           
