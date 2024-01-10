@@ -58,29 +58,35 @@ jobs:
     needs: Oc-openshift-Install
     if: ${{ success() }}
     
-    steps: 
+    steps:
+      - name: Authenticate and set context
+        uses: redhat-actions/oc-login@v1
 
-      - name: Log in and set context
-        # In a real workflow, point the 'uses' to a tag.
-        # uses: redhat-actions/oc-login@v1
-        uses: actions/checkout@v4
         with:
+          # URL to your OpenShift cluster.
+          # Refer to Step 2.
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_username: ${{ secrets.TEST_USER }}
+
+
+          # Credentials, if desired instead of token.
+          # Username and password override token if they are set.
+          openshift_username: ${{ secrets.OPENSHIFT_USER }}
           openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
-          #certificate_authority_data: ${{ secrets.CA_DATA }}
-          namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
 
-      - name: Test
-        run: |
-          oc api-resources
+          # Disables SSL cert checking. Use this if you don't have the certificate authority data.
+          insecure_skip_tls_verify: true
+          # This method is more secure, if the certificate from Step 4 is available.
+          certificate_authority_data: ${{ secrets.CA_DATA }}
 
-      
-      
+          # Optional - this sets your Kubernetes context's current namespace after logging in.
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+
           
-        
+          
+              
+            
 
-   
+       
 
 
-        
+            
