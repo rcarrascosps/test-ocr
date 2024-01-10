@@ -59,6 +59,7 @@ jobs:
     if: ${{ success() }}
     
     steps:
+      - uses: actions/checkout@v4 
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "64.23.160.96 api.crc.testing oauth-openshift.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing flex-route-flex.apps-crc.testing downloads-openshift-console.apps-crc" | sudo tee -a /etc/hosts
@@ -90,12 +91,10 @@ jobs:
           oc api-resources
           
       - name: Delete secret
-        uses: actions/checkout@v4
         run: |
           oc delete secret my-secret -n flex
           
       - name: Create secret
-        uses: actions/checkout@v4
         run: |
           oc create secret generic my-secret --from-file=config.yaml=mnx.yaml -n flex
 
