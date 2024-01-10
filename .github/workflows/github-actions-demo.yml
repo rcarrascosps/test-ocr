@@ -53,24 +53,27 @@ jobs:
         with:
           oc_version: '4.6'
       
-  Login:
+  login:
+    name: OpenShift Login and Test
     runs-on: ubuntu-20.04
-    needs: Oc-openshift-Install
-    if: ${{ success() }}
-    steps: 
-      - uses: actions/checkout@v4
-      
-      - name: Add hosts to /etc/hosts
-        run: |
-            sudo echo "64.23.160.96 api.crc.testing oauth-openshift.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing flex-route-flex.apps-crc.testing downloads-openshift-console.apps-crc" | sudo tee -a /etc/hosts
-      - name: Log in and set context
-        run:
-          oc login -u kubeadmin --server=https://64.23.160.96:6443  --password=odDkV-opFbW-C2f2E-6URu --insecure-skip-tls-verify=true
-          
-      - name: test 
-        run:
-          oc get pods
 
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in and set context
+        # In a real workflow, point the 'uses' to a tag.
+        # uses: redhat-actions/oc-login@v1
+        uses: ./
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_username: ${{ secrets.TEST_USER }}
+          openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
+          #certificate_authority_data: ${{ secrets.CA_DATA }}
+          namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
+
+      - name: Test
+        run: |
+          oc api-resources
 
       
       
