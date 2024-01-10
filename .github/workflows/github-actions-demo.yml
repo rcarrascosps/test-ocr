@@ -105,6 +105,12 @@ jobs:
   Validate:
     runs-on: ubuntu-latest
     steps:
+    
+       - uses: actions/checkout@v4 
+       - name: Add hosts to /etc/hosts
+         run: |
+             sudo echo "64.23.160.96 api.crc.testing oauth-openshift.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing flex-route-flex.apps-crc.testing downloads-openshift-console.apps-crc" | sudo tee -a /etc/hosts
+      
        - name: REST API with curl
          run: |
             curl -X GET "http://flex-route-flex.apps-crc.testing/test"
