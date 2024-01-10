@@ -97,6 +97,10 @@ jobs:
       - name: Create secret
         run: |
           oc create secret generic my-secret --from-file=config.yaml=mnx.yaml -n flex
+          
+      - name: Rollout
+        run: |
+          oc rollout restart deployment flexmulesoft -n flex
 
           
           
