@@ -16,7 +16,7 @@ spec:
       address: http://sps-order-inventory-svc:8080/inventory
       routes:
         - rules:
-            - path: /regresos123698pppp/inventarios(.*)
+            - path: /egresoswuil/inventarios(.*)
           config:
             destinationPath: /inventory
     usuarios:
